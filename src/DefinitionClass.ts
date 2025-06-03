@@ -337,8 +337,8 @@ export class Definition<
 
             const extraInfos = { dbId, modelName, dbIds: Object.keys(allModels || {}), modelNames: Object.keys(allModels?.[dbId as any] || {}) }
 
-            if (!allModels?.[dbId as any]) throw new DescriptiveError(`DbId ${dbId as string} not found on models you provided for good-cop Definitino class`, extraInfos)
-            if (!model) throw new DescriptiveError(`Model not found. Please make you provided a model with the name "${modelName.toString()}" when initiating good-cop. Make sure you BUILDED the app correctly`, extraInfos)
+            if (!allModels?.[dbId as any]) throw new DescriptiveError(`DbId ${dbId as string} not found on models you provided for good-cop on class`, extraInfos)
+            if (!model) throw new DescriptiveError(`Model not found. Please make sure you provided a model with the name "${modelName.toString()}" when initiating good-cop. Make sure you BUILDED the app correctly`, extraInfos)
             return { ...model._definitions[0], tsTypeStr: undefined }
         }]) as any as
             NextAutocompletionChoices<
