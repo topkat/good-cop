@@ -22,7 +22,7 @@
   "author": "topkat",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/top-kat/good-cop.git"
+    "url": "git+https://github.com/topkat/good-cop.git"
   },
   "scripts": {
     "clean": "rm -rf ./dist",
