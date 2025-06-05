@@ -11,16 +11,21 @@
 
 > This library is a personal work, actually used in production apps feel free to contact me via github to collaborate or for feature request
 
-# VALIDATION LIBRARY (zod like syntax)
+# VALIDATION LIBRARY (zod like)
 
 * Infer typescript types
-* **Generate type as string** for file generation
-* **Generate mongo schemas** from types
-* format and validation
+* **Generate typescript types as string** to use in file generation
+* **Generate mongo schemas** from types, so you can create database models with it
+* **Generate swagger doc** like syntax
+* Format and Validation
 * Can return a different type (ts and validation) depending of a method (create, update, delete...). 
   * Eg: When using `.required()`, you usually want to throw an error on `create` but not on `update`
   * Also, when required, the typescript prop type in an object will be required (`myProp: val` instead of `myProp: val`) so you wont have to check for undefined before accessing the value
   * Eg2: in a mongo model, you usually want _id field to be mandatory in an object type on read but not on write
+
+# Why not using zod ?
+
+The need to generate types as string and mongo models was the top reason for that. Zod is also a very heavy and the code is very hard to read / modify, so a fork was not planned. On the other side I try to keep good-cop within a few files that are easy to maintain and augment (I can easily add anything to like generate swagger doc...). The downside of that is that JS and TS are developped in parallel (see Definition.ts header for more infos) and this can lead to little but some inconsistencies in chaining function syntax, like chaining a string method to a number in rare cases
 
 # Examples
 
@@ -45,7 +50,8 @@ const objDef = _.object({
 })
 
 type Obj = InferType<typeof objDef>
-/*
+/* 
+The above type is interpreted as
 {
   string: string
   enum?: [ number, boolean ]
@@ -93,8 +99,3 @@ const organization = _.mongoModel([], { name: _.string() }})
 
 
 ```
-
-
-# TODOS
-
-* make a way for types to work with population or provide a helper
