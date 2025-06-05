@@ -31,10 +31,10 @@
     "test:filter": "jest --watchAll --testPathPattern=circular",
     "test:ci": "jest --ci --silent",
     "// Please run bump commands with NPM not Yarn": "",
-    "bump": "yarn test:ci && npm run build && bump --patch",
-    "bump:major": "yarn test:ci && npm run build && bump --patch",
-    "bump:minor": "yarn test:ci && npm run build && bump --minor",
-    "bump:patch": "yarn test:ci && npm run build && bump --patch --patch"
+    "bump": "npm run build && yarn test:ci && bump --patch",
+    "bump:major": "npm run build && yarn test:ci && bump --patch",
+    "bump:minor": "npm run build && yarn test:ci && bump --minor",
+    "bump:patch": "npm run build && yarn test:ci && bump --patch --patch"
   },
   "dependencies": {
     "@types/mongoose": "^5.11.97",
