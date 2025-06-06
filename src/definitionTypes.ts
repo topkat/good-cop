@@ -294,4 +294,4 @@ export type SwaggerSchema =
 
 // /!\ This type can't be exported from topkat-utils because of that 💩 since ESM migration:
 // backend/dataTracking/dataTrackingRegisterEvent.svc.ts(30,14): error TS2742: The inferred type of 'dataTrackingRegisterEvent' cannot be named without a reference to 'green_dot/node_modules/topkat-utils'. This is likely not portable. A type annotation is necessary.
-export type GoodCopErrorOptions = { code: number, doNotThrow: boolean, err: any, notifyAdmins: boolean, doNotDisplayCode: boolean, doNotWaitOneFrameForLog: boolean, noStackTrace: boolean }
+export type GoodCopErrorOptions = Partial<{ code: number, doNotThrow: boolean, err: any, notifyAdmins: boolean, doNotDisplayCode: boolean, doNotWaitOneFrameForLog: boolean, noStackTrace: boolean }> & Record<string, any>
