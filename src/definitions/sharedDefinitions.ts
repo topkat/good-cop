@@ -1,5 +1,5 @@
 import { defaultTypeError } from '../helpers/definitionGenericHelpers.js'
-import { DefinitionPartial } from '../definitionTypes.js'
+import { GoodCopDefinitionPartial } from '../definitionTypes.js'
 
 import { isset } from 'topkat-utils'
 
@@ -94,4 +94,4 @@ export const sharedDefinitions = {
             return typeStr.startsWith(wrapperName) ? typeStr : `${wrapperName}<${typeStr}>`
         },
     }),
-} satisfies Record<string, DefinitionPartial | (() => DefinitionPartial)>
+} satisfies Record<string, GoodCopDefinitionPartial | (() => GoodCopDefinitionPartial)>

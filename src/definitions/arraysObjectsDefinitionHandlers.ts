@@ -3,7 +3,7 @@
 import { Definition } from '../DefinitionClass.js'
 import { validateDefinitionPartials } from '../helpers/formatAndValidateForDefinition.js'
 import { defaultTypeError } from '../helpers/definitionGenericHelpers.js'
-import { DefCtx, DefinitionPartial, DefinitionObjChild, SwaggerSchema } from '../definitionTypes.js'
+import { GoodCopDefCtx, GoodCopDefinitionPartial, DefinitionObjChild, SwaggerSchema } from '../definitionTypes.js'
 import { triggerOnObjectTypeAsync, triggerOnObjectType } from '../helpers/triggerOnObjectType.js'
 
 import { isObject, forI } from 'topkat-utils'
@@ -11,14 +11,14 @@ import { isObject, forI } from 'topkat-utils'
 //----------------------------------------
 // VALIDATORS
 //----------------------------------------
-const arrDefPartials: DefinitionPartial = {
+const arrDefPartials: GoodCopDefinitionPartial = {
     name: 'array',
     mainType: 'array',
     errorMsg: defaultTypeError('array'),
     // validate: ctx => Array.isArray(ctx.value),
 }
 
-const objDefPartials: DefinitionPartial = {
+const objDefPartials: GoodCopDefinitionPartial = {
     name: 'object',
     mainType: 'object',
     errorMsg: defaultTypeError('object'),
@@ -51,11 +51,11 @@ export function getArrObjDef(
         tsTypeStrForWrite: (_, depth = 0) => tsTypeRecursive('tsTypeStrForWrite', objOrArr, depth),
         swaggerType: depth => swaggerTypeRecursive(objOrArr, depth),
         exempleValue: depth => exempleValueRecursive(objOrArr, depth),
-    } satisfies DefinitionPartial
+    } satisfies GoodCopDefinitionPartial
 }
 
 async function formatAndValidateRecursive(
-    ctx: DefCtx,
+    ctx: GoodCopDefCtx,
     obj: DefinitionObjChild,
     value: any,
     addr: string,

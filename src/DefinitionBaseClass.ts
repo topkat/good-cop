@@ -5,7 +5,7 @@ import { triggerOnObjectType } from './helpers/triggerOnObjectType.js'
 import { Definition } from './DefinitionClass.js'
 import { findTypeInDefinitions, getFieldValueForDefinitions } from './helpers/findInDefinitions.js'
 
-import { DefinitionPartial, DefinitionObjChild, DefinitionPartialFn, ProvidedModels, MainTypes, SwaggerSchema } from './definitionTypes.js'
+import { GoodCopDefinitionPartial, DefinitionObjChild, GoodCopDefinitionPartialFn, GoodCopProvidedModels, GoodCopMainTypes, SwaggerSchema } from './definitionTypes.js'
 
 import { asArray } from 'topkat-utils'
 
@@ -13,10 +13,10 @@ export class DefinitionBase {
     isRequired?: boolean | undefined
     _refValue?: string | undefined
     /** used to store models for model() and ref() definitions */
-    _definitions = [] as (DefinitionPartial | DefinitionPartialFn)[] // may be used somewhere outside the class
-    protected getModels? = (() => ({})) as () => ProvidedModels
+    _definitions = [] as (GoodCopDefinitionPartial | GoodCopDefinitionPartialFn)[] // may be used somewhere outside the class
+    protected getModels? = (() => ({})) as () => GoodCopProvidedModels
     // protected _flatObjectCacheWithoutArraySyntax: Record<string, Definition> | undefined
-    constructor(definitions?: DefinitionPartial | DefinitionPartial[], previousThis?: DefinitionBase) {
+    constructor(definitions?: GoodCopDefinitionPartial | GoodCopDefinitionPartial[], previousThis?: DefinitionBase) {
         if (previousThis) {
             // this._arrOrObjCache = previousThis._arrOrObjCache
             this._refValue = previousThis._refValue as any
@@ -29,7 +29,7 @@ export class DefinitionBase {
             this._definitions.sort((a, b) => (a as any).priority - (b as any).priority)
         }
     }
-    _pushNewDef(definition: DefinitionPartial, doSort = true) {
+    _pushNewDef(definition: GoodCopDefinitionPartial, doSort = true) {
         // default values
         if (typeof definition.priority !== 'number') definition.priority = 50
 
@@ -52,7 +52,7 @@ export class DefinitionBase {
     }
 
     /** for all definitions of the object (eg [string, required]) it will find a defined value and return when the value is met the first time. Eg: for a value of 'isRequired', it will check all definitions for the first containing that field and return it's value */
-    getDefinitionValue<K extends keyof DefinitionPartial>(name: K): (DefinitionPartial[K] | void) {
+    getDefinitionValue<K extends keyof GoodCopDefinitionPartial>(name: K): (GoodCopDefinitionPartial[K] | void) {
         return getFieldValueForDefinitions(this._definitions, name)
     }
     getName() {
@@ -61,7 +61,7 @@ export class DefinitionBase {
     getMainType() {
         return this.getDefinitionValue('mainType')
     }
-    isType(type: MainTypes) {
+    isType(type: GoodCopMainTypes) {
         return findTypeInDefinitions(this._definitions, type)
     }
     getTsTypeAsString(depth = 0) {

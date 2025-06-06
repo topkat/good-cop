@@ -4,7 +4,7 @@ import { User, NoExtraProperties, MaybePromise, ObjectWithNoFn } from './core-ty
 import type { Definition } from './DefinitionClass.js'
 
 /** Type that matches all possible definitions */
-export type DefinitionOut = Required<Pick<Definition, UniversalMethods>> & Partial<Omit<Definition, UniversalMethods>>
+export type DefinitionOut = Required<Pick<Definition, GoodCopUniversalMethods>> & Partial<Omit<Definition, GoodCopUniversalMethods>>
 
 export type TypedExclude<T extends keyof Definition, K extends keyof Definition> = Exclude<T, K>
 
@@ -31,7 +31,7 @@ export type FirstLevelTypes = EnsureIsDefMethod<
     'year'
 >
 
-export type UniversalMethods = EnsureIsDefMethod<
+export type GoodCopUniversalMethods = EnsureIsDefMethod<
     'alwaysDefinedInRead' |
     '_definitions' | '_getDefinitionObjFlat' | '_getObjectCache' | '_getMongoType' | '_pushNewDef' | '_refValue' |
     'default' |
@@ -48,22 +48,22 @@ export type UniversalMethods = EnsureIsDefMethod<
 >
 
 
-export type LengthMethods = EnsureIsDefMethod<'length' | 'maxLength' | 'minLength'>
+export type GoodCopLengthMethods = EnsureIsDefMethod<'length' | 'maxLength' | 'minLength'>
 
-export type NumberMethods = EnsureIsDefMethod<'between' | 'greaterThan' | 'gt' | 'gte' | 'lt' | 'lte' | 'max' | 'min' | 'lessThan' | 'round2' | 'positive'>
+export type GoodCopNumberMethods = EnsureIsDefMethod<'between' | 'greaterThan' | 'gt' | 'gte' | 'lt' | 'lte' | 'max' | 'min' | 'lessThan' | 'round2' | 'positive'>
 
-export type StringMethods = 'lowerCase' | 'upperCase' | 'trim' | 'match' | LengthMethods
-
-
-export type DateMethods = 'isFuture'
+export type GoodCopStringMethods = 'lowerCase' | 'upperCase' | 'trim' | 'match' | GoodCopLengthMethods
 
 
-export type SecondLevelMethods = Exclude<keyof Definition, FirstLevelTypes | UniversalMethods>
+export type GoodCopDateMethods = 'isFuture'
 
-export type NextAutocompletionChoices<
+
+export type GoodCopSecondLevelMethods = Exclude<keyof Definition, FirstLevelTypes | GoodCopUniversalMethods>
+
+export type GoodCopNextDefinition<
     Def extends Definition<any, any, any, any>,
-    Keys extends SecondLevelMethods = never
-> = Pick<Def, Keys | UniversalMethods>
+    Keys extends GoodCopSecondLevelMethods = never
+> = Pick<Def, Keys | GoodCopUniversalMethods>
 
 
 
@@ -71,17 +71,17 @@ export type NextAutocompletionChoices<
 
 import { ErrorOptions } from 'topkat-utils'
 
-export type DaoGenericMethods = 'create' | 'update' | 'delete' | 'getOne' | 'getAll' // duplicated in core types
+export type GoodCopDaoGenericMethods = 'create' | 'update' | 'delete' | 'getOne' | 'getAll' // duplicated in core types
 
-export type MongoTypesString = 'date' | 'number' | 'boolean' | 'object' | 'string' | 'mixed' | 'objectId'
+export type GoodCopMongoTypesString = 'date' | 'number' | 'boolean' | 'object' | 'string' | 'mixed' | 'objectId'
 
-export type MainTypes = Exclude<MongoTypesString, 'objectId' | 'mixed'> | 'array' | 'any' | 'undefined'
+export type GoodCopMainTypes = Exclude<GoodCopMongoTypesString, 'objectId' | 'mixed'> | 'array' | 'any' | 'undefined'
 
-export type DefinitionPartialFn = () => DefinitionPartial & { priority: number } // usually possible in real js
+export type GoodCopDefinitionPartialFn = () => GoodCopDefinitionPartial & { priority: number } // usually possible in real js
 
-export type DefinitionPartial = NoExtraProperties<{
+export type GoodCopDefinitionPartial = NoExtraProperties<{
     /** A string representation of the type BUT NOT TYPESCRIPT */
-    mainType?: MainTypes
+    mainType?: GoodCopMainTypes
     /** Name of the definition for used for debugging purpose */
     name?: string
     /** The lower, the more precedence it will take */
@@ -89,7 +89,7 @@ export type DefinitionPartial = NoExtraProperties<{
     /** Documentation, not used actually */
     doc?: string
     /** Error message displayed when the validate function return falsey value */
-    errorMsg?: string | ((ctx: DefCtx) => MaybePromise<string>)
+    errorMsg?: string | ((ctx: GoodCopDefCtx) => MaybePromise<string>)
     /** Shall represent the ts type, the value should never be evaluated in code, only the inferred type, so we can type as `{ tsType: '' as any as anyTypeYouWant }` */
     tsType?: ((previousType: string, depth?: number) => string) | any
     /** string representation of the typescript type */
@@ -97,22 +97,22 @@ export type DefinitionPartial = NoExtraProperties<{
     /** string representation of the typescript type for write methods (update, create) */
     tsTypeStrForWrite?: ((previousType: string, depth?: number) => string) | string
     /** Use function to modify mongoType object directly, use object to pass a full or a string to define which type to use for mongo for that field */
-    mongoType?: ((mongoTypeObj: Record<string, any>, definitions: (DefinitionPartial | DefinitionPartialFn)[]) => any) | MongoTypesString | Record<string, any>
+    mongoType?: ((mongoTypeObj: Record<string, any>, definitions: (GoodCopDefinitionPartial | GoodCopDefinitionPartialFn)[]) => any) | GoodCopMongoTypesString | Record<string, any>
     /** string representation of the Swagger type */
     swaggerType?: SwaggerSchema | ((depth?: number) => SwaggerSchema)
     /** string representation of an example value */
     exempleValue?: string | ((depth?: number) => string)
     /** should return a truthy value if valid and falsey if not. Actually validation is done AFTER formatting. If you want it differently please use validateBeforeFormatting() */
-    validate?: (ctx: DefCtx) => (any | Promise<any>)
+    validate?: (ctx: GoodCopDefCtx) => (any | Promise<any>)
     /** This happen BEFORE formatting, unless classic validation should return a truthy value if valid and falsey if not */
-    validateBeforeFormatting?: (ctx: DefCtx) => (any | Promise<any>)
-    format?: (ctx: DefCtx) => (any | Promise<any>)
+    validateBeforeFormatting?: (ctx: GoodCopDefCtx) => (any | Promise<any>)
+    format?: (ctx: GoodCopDefCtx) => (any | Promise<any>)
     /** field is always defined when reading, for example if it has a default value */
     alwaysDefinedInRead?: true
     /** shall the function be triggered on undefined fields */
     triggerOnUndefineds?: boolean
     /** triggered only when method is the one selected */
-    methods?: DaoGenericMethods | DaoGenericMethods[]
+    methods?: GoodCopDaoGenericMethods | GoodCopDaoGenericMethods[]
     required?: boolean
     ref?: string
     // isArray?: boolean
@@ -132,14 +132,14 @@ export type DefinitionPartial = NoExtraProperties<{
 }>
 
 
-export interface DefCtx {
+export interface GoodCopDefCtx {
     modelName: string
     addressInParent: string
     errorExtraInfos: ObjectWithNoFn
-    definition: DefinitionPartial
+    definition: GoodCopDefinitionPartial
     dbId?: string
     dbName?: string
-    method: DaoGenericMethods
+    method: GoodCopDaoGenericMethods
     value: any
     fields: ObjectWithNoFn
     fieldAddr: string
@@ -149,7 +149,7 @@ export interface DefCtx {
     depth: number
 }
 
-export type DefCtxWithoutValueAndAddr = Omit<DefCtx, 'value' | 'fieldAddr'>
+export type GoodCopDefCtxWithoutValueAndAddr = Omit<GoodCopDefCtx, 'value' | 'fieldAddr'>
 
 export type InferType<T extends DefinitionObjChild> = InferTypeRead<T> // alias
 
@@ -171,7 +171,7 @@ export type InferTypeRead<
         T[K] extends GenericDef
         ? T[K]['tsTypeRead'] // definition
         : T[K] extends any[]
-        ? InferTypeArrRead<T[K]> // array
+        ? GoodCopInferTypeArrRead<T[K]> // array
         : T[K] extends Record<any, any>
         ? InferTypeRead<T[K]> : // object
         never // unknown
@@ -180,7 +180,7 @@ export type InferTypeRead<
         T[K] extends GenericDef
         ? T[K]['tsTypeRead'] // definition
         : T[K] extends any[]
-        ? InferTypeArrRead<T[K]> // array
+        ? GoodCopInferTypeArrRead<T[K]> // array
         : T[K] extends Record<any, any>
         ? InferTypeRead<T[K]> : // object
         never // unknown
@@ -195,10 +195,12 @@ export type GenericDef = {
     getTsTypeAsString: () => ({ read: string, write: string })
     getSwaggerType: (depth?: number) => SwaggerSchema
     getExampleValue: (depth?: number) => any
-    _definitions: DefinitionPartial[]
+    _definitions: GoodCopDefinitionPartial[]
 }
 
-export type InferTypeArrRead<T extends readonly DefinitionObjChild[]> =
+export type GenericDefinition = GenericDef
+
+export type GoodCopInferTypeArrRead<T extends readonly DefinitionObjChild[]> =
     T extends [] ? [] :
     T[number] extends (infer U) ?
     U extends GenericDef ? U['tsTypeRead'][] : // 1st item is definition
@@ -218,7 +220,7 @@ export type InferTypeWrite<
         T[K] extends GenericDef
         ? T[K]['tsTypeWrite'] // definition
         : T[K] extends any[]
-        ? InferTypeArrWrite<T[K]> // array
+        ? GoodCopInferTypeArrWrite<T[K]> // array
         : T[K] extends Record<any, any>
         ? InferTypeWrite<T[K]> : // object
         never // unknown
@@ -227,13 +229,13 @@ export type InferTypeWrite<
         T[K] extends GenericDef
         ? T[K]['tsTypeWrite'] // definition
         : T[K] extends any[]
-        ? InferTypeArrWrite<T[K]> // array
+        ? GoodCopInferTypeArrWrite<T[K]> // array
         : T[K] extends Record<any, any>
         ? InferTypeWrite<T[K]> : // object
         never // unknown
     }
 
-export type InferTypeArrWrite<T extends readonly DefinitionObjChild[]> =
+export type GoodCopInferTypeArrWrite<T extends readonly DefinitionObjChild[]> =
     T extends [] ? [] :
     T[number] extends (infer U) ?
     U extends GenericDef ? U['tsTypeWrite'][] : // 1st item is definition
@@ -245,22 +247,22 @@ export type DefinitionObjChild = GenericDef | DefinitionObj | GenericDef[] | Def
 
 export type DefinitionObj = { [field: string]: DefinitionObjChild }
 
-export type AutoWritedFieldNames = 'lastUpdateDate' | 'creationDate' | 'lastUpdater' | 'creator'
+export type GoodCopAutoWritedFieldNames = 'lastUpdateDate' | 'creationDate' | 'lastUpdater' | 'creator'
 
-export type DefinitionClassReceivedModelType = {
+export type CoodCopDefinitionClassReceivedModelType = {
     [databaseName: string]: {
-        [modelName: string]: ModelReadWrite
+        [modelName: string]: GoodCopModelReadWrite
     }
 }
 
-export type ModelReadWrite = { // duplicated in core, but may aboid lot of dependencies imported at build
+export type GoodCopModelReadWrite = { // duplicated in core, but may aboid lot of dependencies imported at build
     Write: Record<string, any>
     Read: Record<string, any>
     // WithoutGenerics?: Record<string, any>
     // WithoutGenericsWrite?: Record<string, any>
 }
 
-export type ProvidedModels = {
+export type GoodCopProvidedModels = {
     [databaseName: string]: {
         [modelName: string]: GenericDef
     }
@@ -285,3 +287,11 @@ export type SwaggerSchema =
         example?: Record<string, any>;
     }
 // | { type: string; enum: string[]; example?: string }
+
+
+
+
+
+// /!\ This type can't be exported from topkat-utils because of that 💩 since ESM migration:
+// backend/dataTracking/dataTrackingRegisterEvent.svc.ts(30,14): error TS2742: The inferred type of 'dataTrackingRegisterEvent' cannot be named without a reference to 'green_dot/node_modules/topkat-utils'. This is likely not portable. A type annotation is necessary.
+export type GoodCopErrorOptions = { code: number, doNotThrow: boolean, err: any, notifyAdmins: boolean, doNotDisplayCode: boolean, doNotWaitOneFrameForLog: boolean, noStackTrace: boolean }

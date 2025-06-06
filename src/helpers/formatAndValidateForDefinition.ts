@@ -1,6 +1,6 @@
 
 import { User } from '../core-types.js'
-import { DefinitionPartial, DefCtxWithoutValueAndAddr, DefCtx, DaoGenericMethods } from '../definitionTypes.js'
+import { GoodCopDefinitionPartial, GoodCopDefCtxWithoutValueAndAddr, GoodCopDefCtx, GoodCopDaoGenericMethods } from '../definitionTypes.js'
 import { DefinitionBase } from '../DefinitionBaseClass.js'
 
 import { DescriptiveError } from 'topkat-utils'
@@ -9,7 +9,7 @@ export async function formatAndValidate<This extends DefinitionBase>(
     this: This,
     value: any,
     options: {
-        method?: DaoGenericMethods
+        method?: GoodCopDaoGenericMethods
         /** addr is specfied if value is a child of an object */
         addressInParent?: string
         parentObj?: Record<string, any>
@@ -45,7 +45,7 @@ export async function formatAndValidate<This extends DefinitionBase>(
     errorExtraInfos.userId = user?._id
     errorExtraInfos.userRole = user?.role
 
-    const defCtx = { dbName, modelName, dbId, method, fields: parentObj || value, user, depth } as DefCtxWithoutValueAndAddr
+    const defCtx = { dbName, modelName, dbId, method, fields: parentObj || value, user, depth } as GoodCopDefCtxWithoutValueAndAddr
 
     defCtx.errorExtraInfos = errorExtraInfos
 
@@ -55,8 +55,8 @@ export async function formatAndValidate<This extends DefinitionBase>(
 }
 
 export async function formatAndValidateDefinitionPartials(
-    definitions: DefinitionPartial[],
-    defCtxRaw: DefCtxWithoutValueAndAddr,
+    definitions: GoodCopDefinitionPartial[],
+    defCtxRaw: GoodCopDefCtxWithoutValueAndAddr,
     disableValidation = false,
     disableFormatting = false,
     disableValidationBeforeFormatting = false,
@@ -65,7 +65,7 @@ export async function formatAndValidateDefinitionPartials(
 ) {
 
     const { method = 'create' } = defCtxRaw
-    const defCtx = { ...defCtxRaw, value, fieldAddr } as DefCtx
+    const defCtx = { ...defCtxRaw, value, fieldAddr } as GoodCopDefCtx
 
     if (typeof defCtxRaw.errorExtraInfos === 'undefined') defCtxRaw.errorExtraInfos = {}
 
@@ -115,8 +115,8 @@ export async function formatAndValidateDefinitionPartials(
 
 /* alias */
 export async function validateDefinitionPartials(
-    definitions: DefinitionPartial[],
-    defCtx: DefCtxWithoutValueAndAddr, // for perf
+    definitions: GoodCopDefinitionPartial[],
+    defCtx: GoodCopDefCtxWithoutValueAndAddr, // for perf
     value: any,
     fieldAddr: string
 ) {

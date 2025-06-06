@@ -40,32 +40,32 @@ import {
 } from './helpers/backendDefinitionsHelpers.js'
 
 import {
-    AutoWritedFieldNames,
-    DateMethods,
-    DefCtx,
+    GoodCopAutoWritedFieldNames,
+    GoodCopDateMethods,
+    GoodCopDefCtx,
     DefinitionObj,
-    DefinitionPartial,
-    DefinitionClassReceivedModelType,
+    GoodCopDefinitionPartial,
+    CoodCopDefinitionClassReceivedModelType,
     FirstLevelTypes,
     GenericDef,
     InferTypeRead,
     InferTypeWrite,
-    InferTypeArrRead,
-    InferTypeArrWrite,
-    LengthMethods,
-    NextAutocompletionChoices,
-    NumberMethods,
-    StringMethods,
+    GoodCopInferTypeArrRead,
+    GoodCopInferTypeArrWrite,
+    GoodCopLengthMethods,
+    GoodCopNextDefinition,
+    GoodCopNumberMethods,
+    GoodCopStringMethods,
     TypedExclude,
     SwaggerSchema,
-    ProvidedModels,
+    GoodCopProvidedModels,
+    GoodCopErrorOptions,
 } from './definitionTypes.js'
 
 import {
     capitalize1st,
     DescriptiveError,
     dateArray,
-    ErrorOptions,
     getDateAsInt12,
     getId,
     isType,
@@ -78,14 +78,12 @@ import {
 } from 'topkat-utils'
 
 
-
-
 const { required, number, round2, lt, gt, gte, lte, undefType, string, wrapperTypeStr, boolean } = sharedDefinitions
 
 
 
 export class Definition<
-    ModelsType extends DefinitionClassReceivedModelType = any,
+    ModelsType extends CoodCopDefinitionClassReceivedModelType = any,
     OverridedTypeRead = 'def',
     OverridedTypeWrite = 'def',
     IsRequiredType extends boolean = false
@@ -97,8 +95,8 @@ export class Definition<
     isRequiredType = false as IsRequiredType
     modelTypes = '' as any as ModelsType
     constructor(
-        models?: () => ProvidedModels, // any is for removing type reference and avoid circular type definition
-        definition?: MaybeArray<DefinitionPartial>,
+        models?: () => GoodCopProvidedModels, // any is for removing type reference and avoid circular type definition
+        definition?: MaybeArray<GoodCopDefinitionPartial>,
         previousThis?: any
     ) {
         super(definition, previousThis)
@@ -114,7 +112,7 @@ export class Definition<
         TypeTsRead = OverridedTypeRead,
         TypeTsWrite = TypeTsRead,
         IsRequired extends boolean = IsRequiredType,
-        NewDef extends MaybeArray<DefinitionPartial> = DefinitionPartial
+        NewDef extends MaybeArray<GoodCopDefinitionPartial> = GoodCopDefinitionPartial
     >(newDef?: NewDef) {
         return new Definition<
             typeof this['modelTypes'],
@@ -157,12 +155,12 @@ export class Definition<
         array?: R,
     ) {
         return this._newDef(getArrObjDef(array ? [array] : [], 'array')) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef<
-                    InferTypeArrRead<Array<R>>,
-                    InferTypeArrWrite<Array<R>>
+                    GoodCopInferTypeArrRead<Array<R>>,
+                    GoodCopInferTypeArrWrite<Array<R>>
                 >>,
-                LengthMethods
+                GoodCopLengthMethods
             >
     }
 
@@ -173,14 +171,14 @@ export class Definition<
             mongoType: 'mixed',
             tsTypeStr: 'any',
         }) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef< any, any >>
             >
     }
 
     boolean() {
         return this._newDef(boolean) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef< boolean, boolean >>,
                 'mergeWith'
             >
@@ -199,11 +197,11 @@ export class Definition<
             swaggerType: { type: 'string', format: 'date' },
             exempleValue: '"Fri Jan 03 2012 13:13:25 GMT+0100 (Central European Standard Time)"'
         }) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef<
                     Date
                 >>,
-                DateMethods
+                GoodCopDateMethods
             >
     }
 
@@ -217,9 +215,9 @@ export class Definition<
             swaggerType: { type: 'integer' },
             exempleValue: '20120101'
         }) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef< number >>,
-                DateMethods
+                GoodCopDateMethods
             >
     }
 
@@ -233,9 +231,9 @@ export class Definition<
             swaggerType: { type: 'integer' },
             exempleValue: '201201012222',
         }) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef< number >>,
-                DateMethods
+                GoodCopDateMethods
             >
     }
     /** simple emial validation: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ */
@@ -249,9 +247,9 @@ export class Definition<
             swaggerType: { type: 'string', format: 'email' },
             exempleValue: '"uretreIrrité@gmail.com"', // randomItemInArray(['groZeub', 'boGoss06', 'pineDuitre', 'bibonLePersifleur', 'uretreIrrité', 'clitobite', 'jeanDeLaFistule', 'bourseDistendue', 'biteDeLait', 'dickCheese', 'garageAbites']) + '@gmail.com',
         }) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef< string >>,
-                StringMethods
+                GoodCopStringMethods
             >
     }
     /** Predefined list of values. Eg: status: _.enum(['success', 'error', 'pending']) OR _.enum([1, 2, 3]) */
@@ -267,9 +265,9 @@ export class Definition<
             swaggerType: { type: 'string', enum: possibleValues.map(e => e?.toString?.()) },
             exempleValue: possibleValues?.[0]?.toString?.() // should be deterministic randomItemInArray(possibleValues),
         }) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<TypeOfReturn>,
-                TypedExclude<StringMethods, 'match'>
+                TypedExclude<GoodCopStringMethods, 'match'>
             >
     }
 
@@ -282,11 +280,11 @@ export class Definition<
             exempleValue: '2.12',
 
         }) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef<
                     number
                 >>,
-                NumberMethods
+                GoodCopNumberMethods
             >
     }
 
@@ -300,7 +298,7 @@ export class Definition<
             swaggerType: { type: 'boolean' },
             exempleValue: 'false',
         }) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef< boolean, boolean >>,
                 'mergeWith'
             >
@@ -316,7 +314,7 @@ export class Definition<
             swaggerType: { type: 'boolean' },
             exempleValue: 'true',
         }) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef< boolean, boolean >>,
                 'mergeWith'
             >
@@ -341,7 +339,7 @@ export class Definition<
             if (!model) throw new DescriptiveError(`Model not found. Please make sure you provided a model with the name "${modelName.toString()}" when initiating good-cop. Make sure you BUILDED the app correctly`, extraInfos)
             return { ...model._definitions[0], tsTypeStr: undefined }
         }]) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef<
                     ModelsType[A][B][C]
                 >>,
@@ -350,7 +348,7 @@ export class Definition<
     }
 
     /** With this, you can create mongo models, handling _id field type automatically and creator, lastUpdater... fields */
-    mongoModel<T extends DefinitionObj, U extends readonly AutoWritedFieldNames[]>(
+    mongoModel<T extends DefinitionObj, U extends readonly GoodCopAutoWritedFieldNames[]>(
         autoWriteFields: U,
         model: T
     ) {
@@ -373,13 +371,13 @@ export class Definition<
         }
 
         // ACCEPT NULL FOR ALL SUBOBJECTS that are not required as null is a valid mongo value
-        recursiveGenericFunctionSync(model, (item: { _definitions: DefinitionPartial[] }) => {
+        recursiveGenericFunctionSync(model, (item: { _definitions: GoodCopDefinitionPartial[] }) => {
             if (
                 item?._definitions
                 && item._definitions.length
                 && !item._definitions.some(d => d.required)
             ) {
-                for (const definition of (item._definitions as DefinitionPartial[])) {
+                for (const definition of (item._definitions as GoodCopDefinitionPartial[])) {
                     if (typeof definition.acceptNull !== 'boolean') definition.acceptNull = true
                 }
             }
@@ -395,7 +393,7 @@ export class Definition<
                 deleteForeignKeys: false // actually tried that but led to a bug where $push and all mongo instruction where deleted
             })
         ) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef<
                     InferTypeRead<T> & MongoFieldsRead<U[number]>,
                     InferTypeWrite<T> & MongoFieldsWrite
@@ -414,7 +412,7 @@ export class Definition<
                 return fields[fieldAddr]
             },
         }) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef<
                     typeof this.tsTypeRead,
                     typeof this.tsTypeWrite
@@ -456,7 +454,7 @@ export class Definition<
             swaggerType: { type: 'object' },
             exempleValue: '{ randomKey: true, nb: 4, info: "this is untyped" }',
         }) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<TypeOfReturn>,
                 'partial' | 'complete'
             >
@@ -479,7 +477,7 @@ export class Definition<
         // eslint-disable-next-line @typescript-eslint/no-this-alias
         // Object.assign(this.object, object)
         return this._newDef() as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<TypeOfReturn>,
                 'partial' | 'complete'
             >
@@ -525,7 +523,7 @@ export class Definition<
             swaggerType: (depth) => ({ type: 'array', items: array.map(d => d.getSwaggerType(depth)) }),
             exempleValue: () => `[${array.map(d => d.getExampleValue()).join(', ')}]`,
         }) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef<
                     InferTupleRead<R>,
                     InferTupleWrit<R>
@@ -544,7 +542,7 @@ export class Definition<
             ...getArrObjDef(object || {}, 'object', { deleteForeignKeys }),
             mongoType: () => mongoose.Schema.Types.Mixed,
         }) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef<
                     InferTypeRead<T>,
                     InferTypeWrite<T>
@@ -565,7 +563,7 @@ export class Definition<
             }
         }
         return this._newDef(wrapperTypeStr(this, 'Partial')) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef<
                     Partial<typeof this.tsTypeRead>,
                     Partial<typeof this.tsTypeWrite>
@@ -582,11 +580,11 @@ export class Definition<
             swaggerType: { type: 'integer' },
             exempleValue: '289' // Math.round(Math.random() * 100),
         }) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef<
                     number
                 >>,
-                TypedExclude<NumberMethods, 'round2'>
+                TypedExclude<GoodCopNumberMethods, 'round2'>
             >
     }
 
@@ -600,27 +598,27 @@ export class Definition<
             validate: ctx => ctx.value?.length === 24,
             swaggerType: { type: 'string', format: 'uuid' },
             exempleValue: '"6776baf5c7c6e518aae88071"', // () => generateToken(24, false, 'hexadecimal'),
-        }) as NextAutocompletionChoices<ReturnType<typeof this._newDef<string>>, StringMethods>
+        }) as GoodCopNextDefinition<ReturnType<typeof this._newDef<string>>, GoodCopStringMethods>
     }
 
     match(...params: [Parameters<typeof this['regexp']>[0], Parameters<typeof this['regexp']>[1]]) {
         return this.regexp(...params) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef<
                     typeof this.tsTypeRead,
                     typeof this.tsTypeWrite
                 >>,
-                TypedExclude<StringMethods, 'match'>
+                TypedExclude<GoodCopStringMethods, 'match'>
             >
     }
 
     number() {
         return this._newDef(number) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef<
                     number
                 >>,
-                NumberMethods
+                GoodCopNumberMethods
             >
     }
 
@@ -651,19 +649,19 @@ export class Definition<
             swaggerType: { type: 'string', format: 'password' },
             exempleValue: '"P@ss123!"', // () => generateToken(random(8, 15), false, 'alphanumeric'),
         }) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef< string >>,
-                StringMethods
+                GoodCopStringMethods
             >
     }
 
     percentage() {
         return this._newDef(round2) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef<
                     number
                 >>,
-                NumberMethods
+                GoodCopNumberMethods
             >
     }
 
@@ -711,7 +709,7 @@ export class Definition<
             exempleValue: '"6776baf5c7c6e518aae88072"', // () => generateToken(random(10, 30), false, 'alphanumeric'),
 
         }) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef<
                     AlwaysPopulated extends true
                     ? MergeMultipleObjects<ModelsType>[ModelName]
@@ -736,27 +734,27 @@ export class Definition<
             swaggerType: { type: 'string' },
             exempleValue: '"rndmString"' // () => generateToken(random(8, 30), false, 'alphanumeric'),
         }) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef<
                     string
                 >>,
-                TypedExclude<StringMethods, 'match'>
+                TypedExclude<GoodCopStringMethods, 'match'>
             >
     }
 
     string({ acceptEmpty = false } = {}) {
         return this._newDef(string({ acceptEmpty })) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef<string>>,
-                StringMethods
+                GoodCopStringMethods
             >
     }
 
     stringConstant<T extends string>(hardCodedValue: T) {
         return this._newDef(string({ hardCodedValue })) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef<T>>,
-                StringMethods
+                GoodCopStringMethods
             >
     }
 
@@ -778,7 +776,7 @@ export class Definition<
             tsTypeStr: 'TranslationObj',
             swaggerType: { type: 'object' },
             exempleValue: '{ fr: "Bonjour", en: "Hello" }',
-        }) as any as NextAutocompletionChoices<
+        }) as any as GoodCopNextDefinition<
             ReturnType<typeof this._newDef<TranslationObj>>
         >
     }
@@ -794,9 +792,9 @@ export class Definition<
             swaggerType: { type: 'string', format: 'url' },
             exempleValue: `https://noodle.com/`,
         }) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef< string >>,
-                StringMethods
+                GoodCopStringMethods
             >
     }
 
@@ -811,16 +809,16 @@ export class Definition<
             swaggerType: { type: 'string' },
             exempleValue: '2012', // () => (new Date()).getFullYear(),
         }) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef< number >>,
-                DateMethods
+                GoodCopDateMethods
             >
     }
 
     /** Should be used if the value is expected to be undefined */
     void() {
         return this._newDef({ ...undefType, tsTypeStr: 'void' }) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef< void >>
             >
     }
@@ -828,7 +826,7 @@ export class Definition<
     /** Should be used if the value is expected to be undefined */
     undefined() {
         return this._newDef(undefType) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef< undefined >>
             >
     }
@@ -840,7 +838,7 @@ export class Definition<
             format: ctx => ctx.value === null ? ctx.value : null,
             tsTypeStr: 'null',
         }) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef< null >>
             >
     }
@@ -898,12 +896,12 @@ export class Definition<
             swaggerType: depth => ({ oneOf: types.map(t => t.getSwaggerType(depth)) }),
             exempleValue: depth => types?.[0]?.getExampleValue(depth),
         }) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef<
                     InferTypesOrRead<T>[number],
                     InferTypesOrWrite<T>[number]
                 >>,
-                (typeof this)['tsTypeRead'] extends string ? StringMethods : (typeof this)['tsTypeRead'] extends number ? NumberMethods : never
+                (typeof this)['tsTypeRead'] extends string ? GoodCopStringMethods : (typeof this)['tsTypeRead'] extends number ? GoodCopNumberMethods : never
             >
     }
 
@@ -921,12 +919,12 @@ export class Definition<
             name: 'alwaysDefinedInRead',
             alwaysDefinedInRead: true
         }) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef<
                     typeof this.tsTypeRead,
                     typeof this.tsTypeWrite
                 >>,
-                (typeof this)['tsTypeRead'] extends string ? StringMethods : (typeof this)['tsTypeRead'] extends number ? NumberMethods : never
+                (typeof this)['tsTypeRead'] extends string ? GoodCopStringMethods : (typeof this)['tsTypeRead'] extends number ? GoodCopNumberMethods : never
             >
     }
 
@@ -936,12 +934,12 @@ export class Definition<
             errorMsg: ctx => `Value ${ctx.value} should be between ${min} and ${max} (inclusive)`,
             validate: ctx => ctx.value >= min && ctx.value <= max,
         }) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef<
                     typeof this.tsTypeRead,
                     typeof this.tsTypeWrite
                 >>,
-                TypedExclude<NumberMethods, 'min' | 'gt' | 'gte' | 'greaterThan' | 'max' | 'lt' | 'lte' | 'lessThan'>
+                TypedExclude<GoodCopNumberMethods, 'min' | 'gt' | 'gte' | 'greaterThan' | 'max' | 'lt' | 'lte' | 'lessThan'>
             >
     }
 
@@ -965,7 +963,7 @@ export class Definition<
             }
         }
         return this._newDef(wrapperTypeStr(this, 'Required')) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef<
                     Required<typeof this.tsTypeRead>,
                     Required<typeof this.tsTypeWrite>
@@ -976,34 +974,34 @@ export class Definition<
 
     gte(minVal: number) {
         return this._newDef(gte(minVal)) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef<
                     typeof this.tsTypeRead,
                     typeof this.tsTypeWrite
                 >>,
-                TypedExclude<NumberMethods, 'min' | 'gt' | 'gte' | 'greaterThan'>
+                TypedExclude<GoodCopNumberMethods, 'min' | 'gt' | 'gte' | 'greaterThan'>
             >
     }
 
     greaterThan(minVal: number) {
         return this._newDef(gt(minVal)) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef<
                     typeof this.tsTypeRead,
                     typeof this.tsTypeWrite
                 >>,
-                TypedExclude<NumberMethods, 'min' | 'gt' | 'gte' | 'greaterThan'>
+                TypedExclude<GoodCopNumberMethods, 'min' | 'gt' | 'gte' | 'greaterThan'>
             >
     }
 
     gt(minVal: number) {
         return this._newDef(gt(minVal)) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef<
                     typeof this.tsTypeRead,
                     typeof this.tsTypeWrite
                 >>,
-                TypedExclude<NumberMethods, 'min' | 'gt' | 'gte' | 'greaterThan'>
+                TypedExclude<GoodCopNumberMethods, 'min' | 'gt' | 'gte' | 'greaterThan'>
             >
     }
 
@@ -1013,9 +1011,9 @@ export class Definition<
             errorMsg: ctx => `Date should be in the future. Actual date: ${dateArray(ctx.value)?.join('/')}`,
             validate: ctx => getDateAsInt12(ctx.value) > getDateAsInt12(),
         }) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef< number >>,
-                DateMethods
+                GoodCopDateMethods
             >
     }
 
@@ -1025,23 +1023,23 @@ export class Definition<
             errorMsg: ctx => `Wrong length for value '${ctx.value}'. Expected length (${comparisonOperator} ${length}) but got length (${comparisonOperator} ${ctx.value && ctx.value.length})`,
             validate: ctx => isset(ctx.value) ? comparisonOperator === '>' ? ctx.value?.length > length : comparisonOperator === '<' ? ctx.value?.length < length : ctx.value?.length === length : true,
         }) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef<
                     typeof this.tsTypeRead,
                     typeof this.tsTypeWrite
                 >>,
-                (typeof this)['tsTypeRead'] extends any[] ? never : StringMethods
+                (typeof this)['tsTypeRead'] extends any[] ? never : GoodCopStringMethods
             >
     }
 
     lessThan(maxVal: number) {
         return this._newDef(lt(maxVal)) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef<
                     typeof this.tsTypeRead,
                     typeof this.tsTypeWrite
                 >>,
-                TypedExclude<NumberMethods, 'max' | 'lt' | 'lte' | 'lessThan'>
+                TypedExclude<GoodCopNumberMethods, 'max' | 'lt' | 'lte' | 'lessThan'>
             >
     }
 
@@ -1052,12 +1050,12 @@ export class Definition<
             format: ctx => typeof ctx.value === 'string' ? ctx.value.toLowerCase() : ctx.value,
             priority: 10, // may be applied before email() for example
         }) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef<
                     typeof this.tsTypeRead,
                     typeof this.tsTypeWrite
                 >>,
-                TypedExclude<StringMethods, 'upperCase' | 'lowerCase'>
+                TypedExclude<GoodCopStringMethods, 'upperCase' | 'lowerCase'>
             >
     }
 
@@ -1068,56 +1066,56 @@ export class Definition<
             format: ctx => typeof ctx.value === 'string' ? ctx.value.toUpperCase() : ctx.value,
             priority: 10, // may be applied before email() for example
         }) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef<
                     typeof this.tsTypeRead,
                     typeof this.tsTypeWrite
                 >>,
-                TypedExclude<StringMethods, 'upperCase' | 'lowerCase'>
+                TypedExclude<GoodCopStringMethods, 'upperCase' | 'lowerCase'>
             >
     }
 
     max(maxVal: number) {
         return this._newDef(lte(maxVal)) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef<
                     typeof this.tsTypeRead,
                     typeof this.tsTypeWrite
                 >>,
-                TypedExclude<NumberMethods, 'max' | 'lt' | 'lte' | 'lessThan'>
+                TypedExclude<GoodCopNumberMethods, 'max' | 'lt' | 'lte' | 'lessThan'>
             >
     }
 
     lte(maxVal: number) {
         return this._newDef(lte(maxVal)) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef<
                     typeof this.tsTypeRead,
                     typeof this.tsTypeWrite
                 >>,
-                TypedExclude<NumberMethods, 'max' | 'lt' | 'lte' | 'lessThan'>
+                TypedExclude<GoodCopNumberMethods, 'max' | 'lt' | 'lte' | 'lessThan'>
             >
     }
 
     lt(maxVal: number) {
         return this._newDef(lt(maxVal)) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef<
                     typeof this.tsTypeRead,
                     typeof this.tsTypeWrite
                 >>,
-                TypedExclude<NumberMethods, 'max' | 'lt' | 'lte' | 'lessThan'>
+                TypedExclude<GoodCopNumberMethods, 'max' | 'lt' | 'lte' | 'lessThan'>
             >
     }
 
     min(minVal: number) {
         return this._newDef(gte(minVal)) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef<
                     typeof this.tsTypeRead,
                     typeof this.tsTypeWrite
                 >>,
-                TypedExclude<NumberMethods, 'min' | 'gt' | 'gte' | 'greaterThan'>
+                TypedExclude<GoodCopNumberMethods, 'min' | 'gt' | 'gte' | 'greaterThan'>
             >
     }
 
@@ -1126,12 +1124,12 @@ export class Definition<
             name: 'round2',
             format: ctx => Math.round(ctx.value * 100) / 100,
         }) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef<
                     typeof this.tsTypeRead,
                     typeof this.tsTypeWrite
                 >>,
-                TypedExclude<NumberMethods, 'round2'>
+                TypedExclude<GoodCopNumberMethods, 'round2'>
             >
     }
 
@@ -1141,12 +1139,12 @@ export class Definition<
             errorMsg: ctx => `Value ${ctx.value} should be positive`,
             validate: ctx => ctx.value >= 0,
         }) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef<
                     typeof this.tsTypeRead,
                     typeof this.tsTypeWrite
                 >>,
-                TypedExclude<NumberMethods, 'positive'>
+                TypedExclude<GoodCopNumberMethods, 'positive'>
             >
     }
 
@@ -1157,12 +1155,12 @@ export class Definition<
             format: ctx => typeof ctx.value === 'string' ? ctx.value.trim() : ctx.value,
             priority: 10, // may be applied before email() for example
         }) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef<
                     typeof this.tsTypeRead,
                     typeof this.tsTypeWrite
                 >>,
-                TypedExclude<StringMethods, 'trim'>
+                TypedExclude<GoodCopStringMethods, 'trim'>
             >
     }
 
@@ -1172,12 +1170,12 @@ export class Definition<
             errorMsg: ctx => `Wrong length for value at '${ctx.value}'. Expected minLength (${minLength}) but got length (${ctx.value && ctx.value.length})`,
             validate: ctx => typeof ctx.value === 'undefined' ? true : ctx.value?.length >= minLength,
         }) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef<
                     typeof this.tsTypeRead,
                     typeof this.tsTypeWrite
                 >>,
-                (typeof this)['tsTypeRead'] extends any[] ? never : StringMethods
+                (typeof this)['tsTypeRead'] extends any[] ? never : GoodCopStringMethods
             >
     }
 
@@ -1187,17 +1185,17 @@ export class Definition<
             errorMsg: ctx => `Wrong length for value at '${ctx.value}'. Expected maxLength (${maxLength}) but got length (${ctx.value && ctx.value.length})`,
             validate: ctx => typeof ctx.value === 'undefined' ? true : ctx.value?.length <= maxLength,
         }) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef<
                     typeof this.tsTypeRead,
                     typeof this.tsTypeWrite
                 >>,
-                (typeof this)['tsTypeRead'] extends any[] ? never : StringMethods
+                (typeof this)['tsTypeRead'] extends any[] ? never : GoodCopStringMethods
             >
     }
 
     /** Formatting happens first, before every validations */
-    onFormat(callback: ((ctx: DefCtx) => any) | ((ctx: DefCtx) => Promise<any>)) {
+    onFormat(callback: ((ctx: GoodCopDefCtx) => any) | ((ctx: GoodCopDefCtx) => Promise<any>)) {
         return this._newDef({
             name: 'onFormat',
             format: async ctx => {
@@ -1205,16 +1203,16 @@ export class Definition<
                 return ctx.value
             }
         }) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef<
                     typeof this.tsTypeRead,
                     typeof this.tsTypeWrite
                 >>,
-                (typeof this)['tsTypeRead'] extends string ? StringMethods : (typeof this)['tsTypeRead'] extends number ? NumberMethods : never
+                (typeof this)['tsTypeRead'] extends string ? GoodCopStringMethods : (typeof this)['tsTypeRead'] extends number ? GoodCopNumberMethods : never
             >
     }
 
-    default(defaultValue: ((ctx: DefCtx) => any) | (string | any[] | Record<string, any> | Date | boolean | number | null)) {
+    default(defaultValue: ((ctx: GoodCopDefCtx) => any) | (string | any[] | Record<string, any> | Date | boolean | number | null)) {
         return this._newDef({
             name: 'default',
             priority: 1,
@@ -1228,12 +1226,12 @@ export class Definition<
             alwaysDefinedInRead: true,
             methods: 'create'
         }) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef<
                     typeof this.tsTypeRead,
                     typeof this.tsTypeWrite
                 >>,
-                (typeof this)['tsTypeRead'] extends string ? StringMethods : (typeof this)['tsTypeRead'] extends number ? NumberMethods : never
+                (typeof this)['tsTypeRead'] extends string ? GoodCopStringMethods : (typeof this)['tsTypeRead'] extends number ? GoodCopNumberMethods : never
             >
     }
 
@@ -1242,25 +1240,25 @@ export class Definition<
             name: 'optional',
             required: false,
         }) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef<
                     typeof this.tsTypeRead,
                     typeof this.tsTypeWrite,
                     false
                 >>,
-                (typeof this)['tsTypeRead'] extends string ? StringMethods : (typeof this)['tsTypeRead'] extends number ? NumberMethods : never
+                (typeof this)['tsTypeRead'] extends string ? GoodCopStringMethods : (typeof this)['tsTypeRead'] extends number ? GoodCopNumberMethods : never
             >
     }
 
     required() {
         return this._newDef(required) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef<
                     typeof this.tsTypeRead,
                     typeof this.tsTypeWrite,
                     true
                 >>,
-                (typeof this)['tsTypeRead'] extends string ? StringMethods : (typeof this)['tsTypeRead'] extends number ? NumberMethods : never
+                (typeof this)['tsTypeRead'] extends string ? GoodCopStringMethods : (typeof this)['tsTypeRead'] extends number ? GoodCopNumberMethods : never
             >
     }
 
@@ -1270,14 +1268,14 @@ export class Definition<
     // MISC
     //----------------------------------------
     /** Append extra infos to any errors that may throw during format and validate */
-    errorExtraInfos(errorExtraInfos: ErrorOptions) {
+    errorExtraInfos(errorExtraInfos: GoodCopErrorOptions) {
         return this._newDef({ errorExtraInfos }) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef<
                     typeof this.tsTypeRead,
                     typeof this.tsTypeWrite
                 >>,
-                (typeof this)['tsTypeRead'] extends string ? StringMethods : (typeof this)['tsTypeRead'] extends number ? NumberMethods : never
+                (typeof this)['tsTypeRead'] extends string ? GoodCopStringMethods : (typeof this)['tsTypeRead'] extends number ? GoodCopNumberMethods : never
             >
     }
 
@@ -1299,7 +1297,7 @@ export class Definition<
     }
 
     /** Make the callback return false to unvalidate this field and trigger an error. Note: validation happens after formating */
-    onValidate(callback: (ctx: DefCtx) => any) {
+    onValidate(callback: (ctx: GoodCopDefCtx) => any) {
         return this._newDef({
             name: 'onValidate',
             validate: async ctx => {
@@ -1307,12 +1305,12 @@ export class Definition<
                 else return true
             }
         }) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef<
                     typeof this.tsTypeRead,
                     typeof this.tsTypeWrite
                 >>,
-                (typeof this)['tsTypeRead'] extends string ? StringMethods : (typeof this)['tsTypeRead'] extends number ? NumberMethods : never
+                (typeof this)['tsTypeRead'] extends string ? GoodCopStringMethods : (typeof this)['tsTypeRead'] extends number ? GoodCopNumberMethods : never
             >
     }
 
@@ -1324,12 +1322,12 @@ export class Definition<
             validate: ctx => typeof ctx.value?.then === 'function', // /!\ promise type should not concern in app validation so this should never apply
             ...wrapperTypeStr(this, 'Promise')
         }) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef<
                     typeof this.tsTypeRead,
                     typeof this.tsTypeWrite
                 >>,
-                (typeof this)['tsTypeRead'] extends string ? StringMethods : (typeof this)['tsTypeRead'] extends number ? NumberMethods : never
+                (typeof this)['tsTypeRead'] extends string ? GoodCopStringMethods : (typeof this)['tsTypeRead'] extends number ? GoodCopNumberMethods : never
             >
     }
 
@@ -1346,12 +1344,12 @@ export class Definition<
                 else obj.index = { unique: true, sparse: true }
             },
         }) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef<
                     typeof this.tsTypeRead,
                     typeof this.tsTypeWrite
                 >>,
-                (typeof this)['tsTypeRead'] extends string ? StringMethods : (typeof this)['tsTypeRead'] extends number ? NumberMethods : never
+                (typeof this)['tsTypeRead'] extends string ? GoodCopStringMethods : (typeof this)['tsTypeRead'] extends number ? GoodCopNumberMethods : never
             >
     }
 
@@ -1363,12 +1361,12 @@ export class Definition<
             tsTypeStr: tsString,
             tsTypeStrForWrite: tsTypeWrite,
         }) as any as
-            NextAutocompletionChoices<
+            GoodCopNextDefinition<
                 ReturnType<typeof this._newDef<
                     TsTypeRead,
                     TsTypeWrite
                 >>,
-                (typeof this)['tsTypeRead'] extends string ? StringMethods : (typeof this)['tsTypeRead'] extends number ? NumberMethods : never
+                (typeof this)['tsTypeRead'] extends string ? GoodCopStringMethods : (typeof this)['tsTypeRead'] extends number ? GoodCopNumberMethods : never
             >
     }
 }
