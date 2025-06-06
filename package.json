@@ -3,18 +3,26 @@
   "version": "1.3.10",
   "type": "commonjs",
   "main": "./dist/index-frontend.js",
+  "types": "./dist/index-frontend.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/*"
+      ]
+    }
+  },
   "exports": {
     ".": {
       "default": "./dist/index-frontend.js",
-      "types": "./src/index-frontend.ts"
+      "types": "./dist/index-frontend.d.ts"
     },
     "./backend": {
       "default": "./dist/index-backend.js",
-      "types": "./src/index-backend.ts"
+      "types": "./dist/index-backend.d.ts"
     },
     "./frontend": {
       "default": "./dist/index-frontend.js",
-      "types": "./src/index-frontend.ts"
+      "types": "./dist/index-frontend.d.ts"
     }
   },
   "description": "EXTENDABLE VALIDATION LIBRARY (zod like syntax, can generate mongo models and infer types)",

@@ -5,7 +5,7 @@ export type MaybePromise<T> = T | Promise<T>
 
 export type User = {
   _id: string
-  role: string // main role on requested company
+  role: string
   [k: string]: any
 }
 
