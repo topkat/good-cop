@@ -1,6 +1,6 @@
 {
   "name": "good-cop",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "type": "module",
   "main": "./dist/index-frontend.js",
   "types": "./dist/index-frontend.d.ts",
