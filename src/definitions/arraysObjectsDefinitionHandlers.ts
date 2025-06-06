@@ -1,10 +1,10 @@
 
 
-import { Definition } from '../DefinitionClass'
-import { validateDefinitionPartials } from '../helpers/formatAndValidateForDefinition'
-import { defaultTypeError } from '../helpers/definitionGenericHelpers'
-import { DefCtx, DefinitionPartial, DefinitionObjChild, SwaggerSchema } from '../definitionTypes'
-import { triggerOnObjectTypeAsync, triggerOnObjectType } from '../helpers/triggerOnObjectType'
+import { Definition } from '../DefinitionClass.js'
+import { validateDefinitionPartials } from '../helpers/formatAndValidateForDefinition.js'
+import { defaultTypeError } from '../helpers/definitionGenericHelpers.js'
+import { DefCtx, DefinitionPartial, DefinitionObjChild, SwaggerSchema } from '../definitionTypes.js'
+import { triggerOnObjectTypeAsync, triggerOnObjectType } from '../helpers/triggerOnObjectType.js'
 
 import { isObject, forI } from 'topkat-utils'
 

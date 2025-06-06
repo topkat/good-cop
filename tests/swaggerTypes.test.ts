@@ -1,8 +1,8 @@
 
 
 
-import { _ } from './0_helpers/definitionWithModels'
-import { complexObjectDef } from './0_helpers/complexObjectDef'
+import { _ } from './0_helpers/definitionWithModels.js'
+import { complexObjectDef } from './0_helpers/complexObjectDef.js'
 
 
 

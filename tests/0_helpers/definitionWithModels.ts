@@ -1,5 +1,5 @@
-import { Definition, _ as _2 } from '../../src/DefinitionClass'
-import { EnumVals, complexObjectDef } from './complexObjectDef'
+import { Definition, _ as _2 } from '../../src/DefinitionClass.js'
+import { EnumVals, complexObjectDef } from './complexObjectDef.js'
 
 
 

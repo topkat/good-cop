@@ -1,6 +1,6 @@
 
 
-import { _ } from '../../src/DefinitionClass'
+import { _ } from '../../src/DefinitionClass.js'
 
 
 
@@ -17,6 +17,6 @@ describe(`Partial`, () => {
     })
 
     it('accepts one entry as a partial object', async () => {
-        expect(await partial.formatAndValidate({ name:'testman' })).toEqual({ name:'testman' })
+        expect(await partial.formatAndValidate({ name: 'testman' })).toEqual({ name: 'testman' })
     })
 })

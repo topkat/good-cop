@@ -2,7 +2,7 @@
 // //    ║   ╚═╦═╝ ╠══╝ ╠═       ║   ╠═   ╚══╗   ║    ║  ║╚╗║ ║ ═╦
 // //    ╩     ╩   ╩    ╚══╝     ╩   ╚══╝ ═══╝   ╩   ═╩═ ╩ ╚╩ ╚══╝
 
-// import { Definition } from '../DefinitionClass'
+// import { Definition } from '../DefinitionClass.js'
 
 // // /!\ DONT DELETE /!\
 

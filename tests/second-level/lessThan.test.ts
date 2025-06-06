@@ -1,7 +1,7 @@
 
 
 
-import { _ } from '../../src/DefinitionClass'
+import { _ } from '../../src/DefinitionClass.js'
 
 
 //ATT: no difference in tests between this and Lt
@@ -13,11 +13,11 @@ describe(`Lt`, () => {
         expect(ltDef.getTsTypeAsString()).toEqual({ 'read': 'number', 'write': 'number' })
     })
 
-    it('accepts a number lower', async ()=>{
+    it('accepts a number lower', async () => {
         expect(await ltDef.formatAndValidate(1)).toEqual(1)
     })
 
-    it('throws an error if a higher number is passed', ()=>{
+    it('throws an error if a higher number is passed', () => {
         expect(ltDef.formatAndValidate(3)).rejects.toThrow(`Value 3 should be strictly below required maximum value 2`)
     })
 })

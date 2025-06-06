@@ -1,6 +1,6 @@
 
 
-import { DefinitionPartial, DefinitionPartialFn, MainTypes } from '../definitionTypes'
+import { DefinitionPartial, DefinitionPartialFn, MainTypes } from '../definitionTypes.js'
 
 type Defs = (DefinitionPartial | DefinitionPartialFn)[]
 

@@ -1,5 +1,5 @@
 
-import { _ } from '../../src/DefinitionClass'
+import { _ } from '../../src/DefinitionClass.js'
 
 
 export const enumVals = ['a', 'b', 'c'] as const

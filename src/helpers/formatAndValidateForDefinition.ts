@@ -1,7 +1,7 @@
 
-import { User } from '../core-types'
-import { DefinitionPartial, DefCtxWithoutValueAndAddr, DefCtx, DaoGenericMethods } from '../definitionTypes'
-import { DefinitionBase } from '../DefinitionBaseClass'
+import { User } from '../core-types.js'
+import { DefinitionPartial, DefCtxWithoutValueAndAddr, DefCtx, DaoGenericMethods } from '../definitionTypes.js'
+import { DefinitionBase } from '../DefinitionBaseClass.js'
 
 import { DescriptiveError } from 'topkat-utils'
 

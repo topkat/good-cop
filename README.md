@@ -53,7 +53,7 @@ yarn add good-cop
 ## 🎯 Quick Start
 
 ```typescript
-import { _, InferType } from 'good-cop/frontend'
+import { _, InferType } from 'good-cop'
 
 // Define a schema
 const userSchema = _.object({
@@ -72,7 +72,7 @@ type User = InferType<typeof userSchema>
 ### MongoDB Models
 
 ```typescript
-import { _, InferTypeRead, InferTypeWrite } from 'good-cop/frontend'
+import { _, InferTypeRead, InferTypeWrite } from 'good-cop'
 
 const _ = new Definition<{
   default: {

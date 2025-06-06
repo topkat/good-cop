@@ -1,7 +1,7 @@
 
 
 
-import { _ } from '../../src/DefinitionClass'
+import { _ } from '../../src/DefinitionClass.js'
 
 
 
@@ -14,19 +14,19 @@ describe(`Length`, () => {
         expect(stringDef.getTsTypeAsString()).toEqual({ 'read': 'string', 'write': 'string' })
     })
 
-    it('accepts the length value', async ()=>{
+    it('accepts the length value', async () => {
         expect(await stringDef.formatAndValidate('hey')).toEqual('hey')
     })
 
-    it('throws an error if length of string is less', ()=>{
+    it('throws an error if length of string is less', () => {
         expect(stringDef.formatAndValidate('hi')).rejects.toThrow(`Wrong length for value 'hi'. Expected length (=== 3) but got length (=== 2)`)
     })
 
-    it('throws an error if length of array is less', ()=>{
-        expect(arrayDef.formatAndValidate([1,2])).rejects.toThrow(`Wrong length for value '1,2'. Expected length (=== 3) but got length (=== 2)`)
+    it('throws an error if length of array is less', () => {
+        expect(arrayDef.formatAndValidate([1, 2])).rejects.toThrow(`Wrong length for value '1,2'. Expected length (=== 3) but got length (=== 2)`)
     })
 
-    it('throws an error if length is more', ()=>{
+    it('throws an error if length is more', () => {
         expect(stringDef.formatAndValidate('hello')).rejects.toThrow(`Wrong length for value 'hello'. Expected length (=== 3) but got length (=== 5)`)
     })
 })

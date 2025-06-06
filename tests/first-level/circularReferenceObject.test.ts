@@ -1,6 +1,6 @@
 process.env.GOOD_COP_MAX_RECURSION_DEPTH = '5'
 
-import { _ } from '../../src/DefinitionClass'
+import { _ } from '../../src/DefinitionClass.js'
 
 
 

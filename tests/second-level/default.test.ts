@@ -1,7 +1,7 @@
 
 
 
-import { _ } from '../../src/DefinitionClass';
+import { _ } from '../../src/DefinitionClass.js';
 
 
 

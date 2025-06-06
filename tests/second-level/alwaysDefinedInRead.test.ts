@@ -1,7 +1,7 @@
 
 
 
-import { _ } from '../../src/DefinitionClass'
+import { _ } from '../../src/DefinitionClass.js'
 
 
 
@@ -13,7 +13,7 @@ describe(`AlwaysDefinedInRead`, () => {
         expect(alwaysDefinedInReadDef.getTsTypeAsString()).toEqual({ 'read': 'string', 'write': 'string' })
     })
 
-    it('accepts the length value', async ()=>{
+    it('accepts the length value', async () => {
         expect(await alwaysDefinedInReadDef.formatAndValidate('testman')).toEqual('testman')
     })
 })

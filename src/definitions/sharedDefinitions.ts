@@ -1,5 +1,5 @@
-import { defaultTypeError } from '../helpers/definitionGenericHelpers'
-import { DefinitionPartial } from '../definitionTypes'
+import { defaultTypeError } from '../helpers/definitionGenericHelpers.js'
+import { DefinitionPartial } from '../definitionTypes.js'
 
 import { isset } from 'topkat-utils'
 

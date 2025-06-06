@@ -1,7 +1,7 @@
 
 
-import { User, NoExtraProperties, MaybePromise, ObjectWithNoFn } from './core-types'
-import type { Definition } from './DefinitionClass'
+import { User, NoExtraProperties, MaybePromise, ObjectWithNoFn } from './core-types.js'
+import type { Definition } from './DefinitionClass.js'
 
 /** Type that matches all possible definitions */
 export type DefinitionOut = Required<Pick<Definition, UniversalMethods>> & Partial<Omit<Definition, UniversalMethods>>

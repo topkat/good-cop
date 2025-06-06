@@ -11,8 +11,16 @@ const config: Config = {
     coverageDirectory: 'coverage',
     coverageProvider: 'v8',
     transform: {
-        '^.+\\.tsx?$': 'ts-jest',
-        '^.+\\.js$': '<rootDir>/node_modules/babel-jest',
+        '^.+\\.tsx?$': ['ts-jest', {
+            useESM: true,
+        }],
+        '^.+\\.js$': ['babel-jest', {
+            presets: [['@babel/preset-env', { targets: { node: 'current' } }]],
+        }],
+    },
+    extensionsToTreatAsEsm: ['.ts', '.tsx'],
+    moduleNameMapper: {
+        '^(\\.{1,2}/.*)\\.js$': '$1',
     },
     testRegex: ['.*\\.test\\.[jt]sx?$'],
 }

@@ -1,7 +1,7 @@
 
 
 
-import { _ } from '../../src/DefinitionClass'
+import { _ } from '../../src/DefinitionClass.js'
 
 
 
@@ -21,13 +21,13 @@ describe(`Required and optional object properties`, () => {
     it('allows for optional to be secluded', async () => {
         expect(
             await reqOptDefObj
-        .formatAndValidate({ name: 'testman'})
+                .formatAndValidate({ name: 'testman' })
         )
-        .toEqual({ name: 'testman'})
+            .toEqual({ name: 'testman' })
     })
 
     it('throws an error if required is not passed', async () => {
-        await expect(reqOptDefObj.formatAndValidate({ age:25, boolean:true}))
+        await expect(reqOptDefObj.formatAndValidate({ age: 25, boolean: true }))
             .rejects.toThrow(`Field name is required`);
     });
 })

@@ -1,7 +1,7 @@
 
 
 
-import { _ } from '../../src/DefinitionClass'
+import { _ } from '../../src/DefinitionClass.js'
 
 
 
@@ -13,11 +13,11 @@ describe(`Lowercase`, () => {
         expect(lowerCaseDef.getTsTypeAsString()).toEqual({ 'read': 'string', 'write': 'string' })
     })
 
-    it('accepts a string of lowercase characters', async ()=>{
+    it('accepts a string of lowercase characters', async () => {
         expect(await lowerCaseDef.formatAndValidate('lowercase')).toEqual('lowercase')
     })
 
-    it('converts a string to lowercase', async ()=>{
+    it('converts a string to lowercase', async () => {
         expect(await lowerCaseDef.formatAndValidate('camelCase')).toEqual('camelcase')
     })
 })

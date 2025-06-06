@@ -1,7 +1,7 @@
 
 
 
-import { _ } from '../../src/DefinitionClass'
+import { _ } from '../../src/DefinitionClass.js'
 
 
 
@@ -15,7 +15,7 @@ describe(`String constant`, () => {
             'write': `'stringConstant'`
         });
     })
-    
+
     it('does not accept a different string', async () => {
         expect(await stringConstantDef.formatAndValidate('differentString')).toEqual('stringConstant')
     })

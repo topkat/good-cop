@@ -1,5 +1,5 @@
 
-import { DefCtx } from '../definitionTypes'
+import { DefCtx } from '../definitionTypes.js'
 
 export const defaultTypeError = (type, displayCompareWithTypeofValue = true) => ({ value, errorExtraInfos }: DefCtx) => {
     errorExtraInfos.expectedType = type

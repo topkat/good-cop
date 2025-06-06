@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
-    "target": "ES2017",
-    "module": "commonjs",
+    "target": "ES2020",
+    "module": "ES2020",
+    "moduleResolution": "node",
     "allowJs": false,
     "skipLibCheck": true,
     "resolveJsonModule": true,
@@ -18,15 +19,15 @@
     "noImplicitAny": false,
     "strict": true,
     "declaration": true,
-    "moduleResolution": "node",
     "sourceMap": true,
-    "paths": {},
+    "paths": {}
   },
   "include": [
     "src/**/*",
     "../../db/roulette/src/register-dao-api.ts",
-    "bin/cli-expose.js"
-, "tests/Definition.spec.ts"  ],
+    "bin/cli-expose.js",
+    "tests/Definition.spec.ts"
+  ],
   "exclude": [
     "./src/templates/**/*",
     "./dist/**/*"

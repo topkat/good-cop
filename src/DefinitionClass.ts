@@ -23,13 +23,13 @@ when typing `_.object().`, `partial` and `complete` are suggested but `greaterTh
 
 import 'typescript-generic-types'
 import mongoose from 'mongoose' // only used for typings, may not be compatible if used in frontend
-import { CountryCodeIso, TranslationObj, countryIsoCodes, MaybeArray } from './core-types'
-import { DefinitionBase } from './DefinitionBaseClass'
-import { sharedDefinitions } from './definitions/sharedDefinitions'
-import { defaultTypeError } from './helpers/definitionGenericHelpers'
-import { getFieldValueForDefinitions } from './helpers/findInDefinitions'
-import { getArrObjDef } from './definitions/arraysObjectsDefinitionHandlers'
-import { formatAndValidateDefinitionPartials } from './helpers/formatAndValidateForDefinition'
+import { CountryCodeIso, TranslationObj, countryIsoCodes, MaybeArray } from './core-types.js'
+import { DefinitionBase } from './DefinitionBaseClass.js'
+import { sharedDefinitions } from './definitions/sharedDefinitions.js'
+import { defaultTypeError } from './helpers/definitionGenericHelpers.js'
+import { getFieldValueForDefinitions } from './helpers/findInDefinitions.js'
+import { getArrObjDef } from './definitions/arraysObjectsDefinitionHandlers.js'
+import { formatAndValidateDefinitionPartials } from './helpers/formatAndValidateForDefinition.js'
 import {
     isAnonymousUser,
     MongoTypeObj,

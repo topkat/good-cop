@@ -1,6 +1,6 @@
 
 import mongoose from 'mongoose' // only used for typings, may not be compatible if used in frontend
-import { MongoTypesString } from '../definitionTypes'
+import { MongoTypesString } from '../definitionTypes.js'
 
 export const mongoTypeMapping: { [k in MongoTypesString]: MongoTypes } = {
   boolean: Boolean,

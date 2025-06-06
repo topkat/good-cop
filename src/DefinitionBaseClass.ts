@@ -1,11 +1,11 @@
 
 
-import { formatAndValidate } from './helpers/formatAndValidateForDefinition'
-import { triggerOnObjectType } from './helpers/triggerOnObjectType'
-import { Definition } from './DefinitionClass'
-import { findTypeInDefinitions, getFieldValueForDefinitions } from './helpers/findInDefinitions'
+import { formatAndValidate } from './helpers/formatAndValidateForDefinition.js'
+import { triggerOnObjectType } from './helpers/triggerOnObjectType.js'
+import { Definition } from './DefinitionClass.js'
+import { findTypeInDefinitions, getFieldValueForDefinitions } from './helpers/findInDefinitions.js'
 
-import { DefinitionPartial, DefinitionObjChild, DefinitionPartialFn, ProvidedModels, MainTypes, SwaggerSchema } from './definitionTypes'
+import { DefinitionPartial, DefinitionObjChild, DefinitionPartialFn, ProvidedModels, MainTypes, SwaggerSchema } from './definitionTypes.js'
 
 import { asArray } from 'topkat-utils'
 

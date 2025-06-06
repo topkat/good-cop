@@ -1,5 +1,5 @@
 
-import { Definition } from '../DefinitionClass'
+import { Definition } from '../DefinitionClass.js'
 
 import { C, DescriptiveError } from 'topkat-utils'
 
