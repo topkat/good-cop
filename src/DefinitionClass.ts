@@ -37,7 +37,7 @@ import {
     MongoFieldsWrite,
     mongoTypeMapping,
     systemUserId,
-} from './helpers/backendDefinitionsHelpers'
+} from './helpers/backendDefinitionsHelpers.js'
 
 import {
     AutoWritedFieldNames,
@@ -59,7 +59,7 @@ import {
     TypedExclude,
     SwaggerSchema,
     ProvidedModels,
-} from './definitionTypes'
+} from './definitionTypes.js'
 
 import {
     capitalize1st,
