@@ -73,9 +73,9 @@ import {
     isObject,
     isDateIntOrStringValid,
     parseRegexp,
-    recursiveGenericFunctionSync,
     removeCircularJSONstringify
 } from 'topkat-utils'
+import { mongoModelFieldsProcessing } from './helpers/mongoModelFieldsProcessing.js'
 
 
 const { required, number, round2, lt, gt, gte, lte, undefType, string, wrapperTypeStr, boolean } = sharedDefinitions
@@ -370,22 +370,7 @@ export class Definition<
             untyped.lastUpdater = _.ref('user').default(ctx => getId(ctx.user)).onFormat(ctx => isAnonymousUser(ctx.user._id) ? undefined : getId(ctx.user))
         }
 
-        // ACCEPT NULL FOR ALL SUBOBJECTS that are not required as null is a valid mongo value
-        recursiveGenericFunctionSync(model, (item: { _definitions: GoodCopDefinitionPartial[] }) => {
-            if (
-                item?._definitions
-                && item._definitions.length
-                && !item._definitions.some(d => d.required)
-            ) {
-                for (const definition of (item._definitions as GoodCopDefinitionPartial[])) {
-                    if (typeof definition.acceptNull !== 'boolean') definition.acceptNull = true
-                }
-            }
-        }, {
-            isObjectTestFunction: item => {
-                return isObject(item) || item instanceof Definition
-            }
-        })
+        mongoModelFieldsProcessing(model)
 
         return this._newDef(
             // this def cannot be a function because we need to keep track of def.objectCache for further manipulation
