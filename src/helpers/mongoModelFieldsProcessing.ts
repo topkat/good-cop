@@ -1,6 +1,6 @@
 import { isObject, recursiveGenericFunctionSync } from 'topkat-utils'
-import { DefinitionObj, GoodCopDefinitionPartial } from '../definitionTypes'
-import { Definition } from '../DefinitionClass'
+import { DefinitionObj, GoodCopDefinitionPartial } from '../definitionTypes.js'
+import { Definition } from '../DefinitionClass.js'
 
 
 
