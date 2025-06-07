@@ -4,7 +4,6 @@ import { Definition } from '../DefinitionClass.js'
 
 
 
-
 export function mongoModelFieldsProcessing(model: DefinitionObj) {
   // ACCEPT NULL FOR ALL SUBOBJECTS that are not required as null is a valid mongo value
   recursiveGenericFunctionSync(model, (item: { _definitions: GoodCopDefinitionPartial[] }) => {
