@@ -326,7 +326,8 @@ export class Definition<
     ) {
         return this._newDef([{
             mainType: 'object',
-            tsTypeStr: `modelTypes.${capitalize1st(modelName.toString())}Models['${modelType.toString()}']`,
+            tsTypeStr: `ModelsWithReadWrite['${modelName.toString()}']['${modelType.toString()}']`,
+            // `modelTypes.${capitalize1st(modelName.toString())}Models['${modelType.toString()}']`,
             dbName: dbId as string,
             model: modelName as string,
         }, () => {
@@ -651,6 +652,9 @@ export class Definition<
     }
 
     ref<AlwaysPopulated extends boolean, ModelName extends keyof MergeMultipleObjects<ModelsType>>(modelName: ModelName, alwaysPopulated?: AlwaysPopulated) {
+
+        const modelType = `ModelsWithReadWrite['${modelName.toString()}']['Read']`
+
         return this._newDef({
             mainType: 'string',
             errorMsg: `Only ObjectIds are accepted on referenced fields`,
@@ -660,7 +664,7 @@ export class Definition<
                 typeObj.type = mongoose.Schema.Types.ObjectId
                 typeObj.ref = modelName
             },
-            tsTypeStr: (alwaysPopulated ? '' : `string | modelTypes.`) + `${capitalize1st(modelName as string)}`,
+            tsTypeStr: (alwaysPopulated ? modelType : `string | ${modelType}`),
             tsTypeStrForWrite: `string`,
             ref: modelName as string,
             swaggerType: (depth) => {

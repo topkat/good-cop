@@ -31,9 +31,9 @@ describe('Mongo Model', () => {
     }>
     '_id': string
     'creationDate': Date
-    'creator': string | modelTypes.User
+    'creator': string | ModelsWithReadWrite['user']['Read']
     'lastUpdateDate'?: Date
-    'lastUpdater': string | modelTypes.User
+    'lastUpdater': string | ModelsWithReadWrite['user']['Read']
 }`)
     })
 
