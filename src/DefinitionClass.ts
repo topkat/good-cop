@@ -63,7 +63,6 @@ import {
 } from './definitionTypes.js'
 
 import {
-    capitalize1st,
     DescriptiveError,
     dateArray,
     getDateAsInt12,
